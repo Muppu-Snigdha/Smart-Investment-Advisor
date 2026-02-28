@@ -10,3 +10,4 @@ python-dotenv
 bcrypt
 twilio
 requests
+altair
