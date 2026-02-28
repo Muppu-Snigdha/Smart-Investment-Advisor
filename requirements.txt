@@ -3,11 +3,12 @@ pandas
 numpy
 scikit-learn
 joblib
-streamlit
+streamlit==1.32.0
 matplotlib
 ta
 python-dotenv
 bcrypt
 twilio
 requests
-altair
+altair==4.2.2
+
