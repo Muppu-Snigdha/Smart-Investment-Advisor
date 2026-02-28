@@ -17,111 +17,91 @@ USD_TO_INR = 83
 st.markdown("""
 <style>
 
-/* ---------- APP BACKGROUND ---------- */
+/* ===== FULL DARK BACKGROUND ===== */
 .stApp {
-    background-color: #FFFFFF;
-    font-family: 'Segoe UI', sans-serif;
+    background-color: #0E1117;
+    color: #FFFFFF;
 }
 
-/* ---------- MAIN TITLE ---------- */
+/* ===== MAIN TITLE ===== */
 .main-title {
-    text-align: center;
-    font-size: 36px;
-    font-weight: bold;
-    color: #6A1B9A;
-    margin-bottom: 10px;
+    text-align:center;
+    font-size:36px;
+    font-weight:bold;
+    color:#BB86FC;
 }
 
-/* ---------- ALL HEADINGS FIX ---------- */
-h1, h2, h3, h4, h5, h6 {
-    color: #4B0082 !important;
-    opacity: 1 !important;
-    font-weight: 700 !important;
+/* ===== HEADINGS FIX ===== */
+h1, h2, h3, h4, h5, h6, p, label, span {
+    color: white !important;
 }
 
-/* Custom sub heading */
-.sub-heading {
-    color: #4B0082 !important;
-    font-weight: 700 !important;
-    text-align: center;
-}
-
-/* ---------- INPUT BOXES ---------- */
+/* ===== INPUT BOXES ===== */
 input[type="text"],
 input[type="password"],
 input[type="number"],
 textarea {
-    background-color: #EDE7F6 !important;
-    color: black !important;
-    border-radius: 10px !important;
-    border: 1px solid #D1C4E9 !important;
-    padding: 8px !important;
+    background-color: #1F1F2E !important;
+    color: white !important;
+    border-radius: 8px !important;
+    border: 1px solid #444 !important;
 }
 
-/* Streamlit input container */
+/* Streamlit internal input wrapper */
 div[data-baseweb="input"] > div {
-    background-color: #EDE7F6 !important;
-    border-radius: 10px !important;
+    background-color: #1F1F2E !important;
 }
 
-/* ---------- BUTTONS ---------- */
+/* ===== BUTTON STYLE ===== */
 .stButton > button {
     background-color: #7E57C2 !important;
     color: white !important;
     font-weight: bold !important;
-    border-radius: 10px !important;
+    border-radius: 8px !important;
     border: none !important;
-    padding: 10px 20px !important;
-    transition: 0.3s ease-in-out;
 }
 
 .stButton > button:hover {
     background-color: #5E35B1 !important;
-    transform: scale(1.03);
 }
 
-/* ---------- SUCCESS & ERROR TEXT ---------- */
+/* ===== SIDEBAR DARK ===== */
+section[data-testid="stSidebar"] {
+    background-color: #161625 !important;
+}
+
+/* ===== SUCCESS / ERROR COLORS ===== */
 .green-text {
-    color: #2E7D32;
-    font-size: 20px;
-    font-weight: bold;
-    text-align: center;
+    color:#00E676;
+    font-size:20px;
+    font-weight:bold;
+    text-align:center;
 }
 
 .red-text {
-    color: #C62828;
-    font-size: 20px;
-    font-weight: bold;
-    text-align: center;
+    color:#FF5252;
+    font-size:20px;
+    font-weight:bold;
+    text-align:center;
 }
 
-/* ---------- SIDEBAR ---------- */
-section[data-testid="stSidebar"] {
-    background-color: #F3E5F5;
+/* ===== SUBHEADERS ===== */
+.sub-heading {
+    color:#BB86FC;
+    text-align:center;
 }
 
-/* ---------- MOBILE RESPONSIVE ---------- */
-@media (max-width: 768px) {
-
-    .main-title {
-        font-size: 26px !important;
-    }
-
-    h1 { font-size: 24px !important; }
-    h2 { font-size: 20px !important; }
-    h3 { font-size: 18px !important; }
-
-    .stButton > button {
-        width: 100% !important;
-    }
-
-    div[data-baseweb="input"] {
-        width: 100% !important;
-    }
+/* ===== LINKS ===== */
+a {
+    color:#BB86FC !important;
+    text-decoration:none;
 }
 
 </style>
 """, unsafe_allow_html=True)
+
+
+
 
 # ================= DATABASE =================
 def init_db():
@@ -471,3 +451,4 @@ st.markdown(
     unsafe_allow_html=True
 
 )
+
