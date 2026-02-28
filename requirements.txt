@@ -1,0 +1,12 @@
+yfinance
+pandas
+numpy
+scikit-learn
+joblib
+streamlit
+matplotlib
+ta
+python-dotenv
+bcrypt
+twilio
+requests

@@ -1,0 +1,28 @@
+{
+  "n_estimators": 5,
+  "test_size": 0.2,
+  "accuracy": 0.46564885496183206,
+  "model_path": "c:\\Users\\pprav\\OneDrive\\Desktop\\smart investment advisor\\data\\models\\model.joblib",
+  "timestamp_utc": "2025-10-18T11:09:00.496135Z",
+  "git_short_hash": null,
+  "dataset_date_min": "2022-11-15 00:00:00",
+  "dataset_date_max": "2025-06-26 00:00:00",
+  "feature_stats": {
+    "ma5": {
+      "mean": 44.04325035981811,
+      "std": 1.1782499350157696
+    },
+    "ma20": {
+      "mean": 44.00373730907381,
+      "std": 1.2033392117376491
+    },
+    "vol20": {
+      "mean": 0.0026659452767215635,
+      "std": 0.0009984994481432809
+    },
+    "momentum": {
+      "mean": 0.0025376656168699684,
+      "std": 0.016058206913681653
+    }
+  }
+}
