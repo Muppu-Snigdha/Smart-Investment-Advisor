@@ -284,8 +284,8 @@ def show_header(title="🚀"):
         html = get_live_ticker_html()
     if html:
         st.markdown(
-            f"<div class='marquee'><a href='?page=stocks'>{html}</a></div>",
-            unsafe_allow_html=True,
+           f"<div class='marquee'><a href='https://finance.yahoo.com/markets/stocks/' target='_blank'>{html}</a></div>",
+           unsafe_allow_html=True,
         )
     st.markdown(f"<h1 style='text-align:center;'>{title} Smart Investment Advisor</h1>", unsafe_allow_html=True)
 
