@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import streamlit as st
 import yfinance as yf
 from datetime import datetime
@@ -1447,4 +1446,3 @@ st.markdown(
 
 )
 
->>>>>>> a4a7040cd967cbcddb18ac6fd13e09738f241362
