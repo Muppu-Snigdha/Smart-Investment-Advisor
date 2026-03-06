@@ -10,6 +10,7 @@ python-dotenv
 bcrypt
 twilio
 requests
+plotly
 altair==4.2.2
 
 
