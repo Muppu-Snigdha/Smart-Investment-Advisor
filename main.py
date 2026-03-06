@@ -17,35 +17,8 @@ SENDER_EMAIL = st.secrets["SENDER_EMAIL"]
 APP_PASSWORD = st.secrets["APP_PASSWORD"]
 USD_TO_INR = 83
 
-# content for the About tab (reused below)
-ABOUT_TEXT = """
-<div style='text-align:center; padding:60px 0;'>
-  <h1 style='font-size:48px; font-weight:bold; color:#42A5F5; margin-bottom:30px;'>
-    Smart Investment Advisor
-  </h1>
-  <h2 style='font-size:22px; font-weight:bold; color:#E0E0E0; margin-bottom:10px;'>
-    Features
-  </h2>
-  <ul style='font-size:16px; color:#E0E0E0; line-height:1.6; display:inline-block; text-align:left; max-width:600px;'>
-    <li>📈 Analyze real-time stock data</li>
-    <li>🔍 Predict BUY / SELL / HOLD signals</li>
-    <li>📊 Show stock charts</li>
-    <li>🔗 Provide Yahoo Finance links</li>
-    <li>✉️ Send email alerts</li>
-  </ul>
 
-  <h2 style='font-size:22px; font-weight:bold; color:#E0E0E0; margin:40px 0 10px;'>
-    How to Use
-  </h2>
-  <ol style='font-size:16px; color:#E0E0E0; line-height:1.6; display:inline-block; text-align:left; max-width:600px;'>
-    <li>Click “Get Started”</li>
-    <li>Sign Up to create an account</li>
-    <li>Sign In to access the app</li>
-    <li>Enter a stock symbol & quantity</li>
-    <li>View predictions, charts and email alerts</li>
-  </ol>
-</div>
-"""
+    
 
 # ================= CLEAN CSS =================
 st.markdown("""
@@ -59,9 +32,8 @@ st.markdown("""
 
 /* ================= FIX CONTENT WIDTH ================= */
 .block-container {
-    max-width: 1200px;
+    max-width: 600px;
     margin: auto;
-    padding-top: 2rem;
 }
 
 /* Remove horizontal scroll */
@@ -101,14 +73,15 @@ html, body {
 .stTabs [data-baseweb="tab-list"] {
     justify-content: center;
     gap: 20px;
+    flex-wrap: wrap;
 }
 
 .stTabs [data-baseweb="tab"] {
     background: #1F1F2E;
-    border-radius: 12px;
-    padding: 12px 25px;
+    border-radius: 10px;
+    padding: 8px 12px;
     font-weight: bold;
-    font-size: 16px;
+    font-size: 13px;
 }
 
 .stTabs [aria-selected="true"] {
@@ -168,23 +141,41 @@ div[data-baseweb="input"] > div {
     padding:20px;
 }
 .landing-container h1 {
-    font-size:60px;
+    font-size:32px;
     font-weight:900;
     color:#42A5F5;
     margin-bottom:10px;
 }
 .landing-container h3 {
-    font-size:28px;
+    font-size:20px;
     font-weight:bold;
     color:white;
     margin-top:30px;
 }
 .landing-container p {
-    font-size:20px;
-    max-width:850px;
+    font-size:16px;
+    max-width:400px;
     margin:auto;
     color:#E0E0E0;
     line-height:1.8;
+}
+/* ================= GET STARTED BUTTON ================= */
+
+.get-started-btn button {
+    background: linear-gradient(90deg, #00C6FF, #0072FF) !important;
+    color: white !important;
+    font-size: 20px !important;
+    font-weight: bold !important;
+    padding: 14px 40px !important;
+    border-radius: 30px !important;
+    border: none !important;
+    box-shadow: 0 0 20px rgba(0,114,255,0.7);
+    transition: 0.3s;
+}
+
+.get-started-btn button:hover {
+    transform: scale(1.08);
+    box-shadow: 0 0 35px rgba(0,114,255,1);
 }
 
 /* ================= SIDEBAR DARK ================= */
@@ -429,6 +420,10 @@ flex-direction:column;
 justify-content:center;
 align-items:center;
 text-align:center;
+padding:30px 15px;
+max-width:500px;
+margin:auto;
+border-radius:20px;
 ">
 <h1>🚀 Smart Investment Advisor</h1>
 <h3>📊 Analyze Stocks • Predict Trends • Make Smarter Investments</h3>
@@ -443,14 +438,13 @@ This app combines <b>data analysis, AI-based signals, and live market insights</
 </div>
 """, unsafe_allow_html=True)
 
-    st.markdown("<br><br>", unsafe_allow_html=True)
+    st.markdown("<div class='get-started-btn' style='text-align:center;margin-top:30px;'>", unsafe_allow_html=True)
 
-    col1, col2, col3 = st.columns([1,1,1])
+    if st.button("🚀 Get Started"):
+       st.session_state.show_landing = False
+       st.rerun()
 
-    with col2:
-        if st.button("🚀 Get Started"):
-            st.session_state.show_landing = False
-            st.rerun()
+       st.markdown("</div>", unsafe_allow_html=True)
 
     st.stop()
 
@@ -604,12 +598,13 @@ if not st.session_state.logged_in:
 
         # RESET PASSWORD
         if st.session_state.get("otp_verified"):
+           username = st.text_input("Enter Username for Password Reset")
 
            new_password = st.text_input("Enter New Password", type="password")
 
            if st.button("Reset Password"):
 
-              reset_password(st.session_state["reset_user"], new_password)
+              reset_password(username, new_password)
 
               st.success("Password Reset Successful")
 
@@ -618,6 +613,18 @@ if not st.session_state.logged_in:
               st.session_state["auth_page"] = "Login"
 
               st.rerun()
+        #===BACK TO SIGN IN LINK=====
+        st.markdown(
+  """
+                 <div style='text-align:center; margin-top:20px;'>
+                     <a href='?page=login'
+                     style='font-size:14px; font-weight:500; text-decoration:underline; color:#1976D2;'>
+                     ⬅ Previous
+                     </a>
+                    </div>
+                    """,
+                    unsafe_allow_html=True
+                )
 
     st.stop()
 
@@ -640,8 +647,8 @@ if st.session_state.logged_in:
 def fetch_data(sym):
     return yf.download(sym, period="6mo")
 
-home_tab, about_tab, graph_tab, yahoo_tab, profile_tab, stocks_tab = st.tabs(
-["🏠 Home", "📘 About", "📊 Graph", "🔗 Yahoo Finance", "👤 Profile", "📈 Stocks"]
+home_tab, graph_tab, yahoo_tab, profile_tab, stocks_tab, about_tab= st.tabs(
+["🏠 Home", "📊 Graph", "🔗 Yahoo Finance", "👤 Profile", "📈 Stocks", "📘 About"]
 )
 
 # store last picked symbol for re-use in other tabs
@@ -650,47 +657,73 @@ if "last_symbol" not in st.session_state:
 
 IS_TEST = "PYTEST_CURRENT_TEST" in os.environ
 if not IS_TEST:
+
+
     with home_tab:
         symbol = st.text_input("Enter Stock Symbol", "AAPL", key="home_sym")
         quantity = st.number_input("Quantity", min_value=1, value=1, key="home_qty")
-    
         if not st.button("🚀 Fetch & Predict", key="home_go"):
             st.stop()
-    
         # remember symbol for the other tabs
         st.session_state.last_symbol = symbol
-    
         df = fetch_data(symbol)
-    
         if df.empty:
             st.error("No data found")
             st.stop()
-    
         latest_price = float(df["Close"].iloc[-1])
         total_value = latest_price * quantity * USD_TO_INR
-    
-    
+
         st.subheader("💰 Live Price")
         st.success(f"USD: ${latest_price:.2f}")
         st.success(f"INR: ₹{latest_price*USD_TO_INR:.2f}")
-    
         df["ma20"] = df["Close"].rolling(20).mean()
         df["ma50"] = df["Close"].rolling(50).mean()
         df = df.dropna()
-    
         decision = "HOLD"
         if df["ma20"].iloc[-1] > df["ma50"].iloc[-1]:
             decision = "BUY"
         elif df["ma20"].iloc[-1] < df["ma50"].iloc[-1]:
             decision = "SELL"
+        # Home tab chart (if you want to show it)
+        # fig_home = ... (if needed)
+        # st.plotly_chart(fig_home, use_container_width=True, key="home_chart")
+
     
-        st.subheader("📊 Price Trend")
-        if decision == "SELL":
-            st.line_chart(df["Close"], color="#C62828")
-        elif decision == "BUY":
-            st.line_chart(df["Close"], color="#2E7D32")
-        else:
-            st.line_chart(df["Close"])
+        import plotly.graph_objects as go
+        st.subheader("📊 Stock Price Trend")
+        symbol = st.session_state.last_symbol
+        ticker = yf.Ticker(symbol)
+        data = ticker.history(period="6mo", interval="1d")
+        if data.empty:
+            st.error("No data found")
+            st.stop()
+        price = data["Close"].iloc[-1]
+        prev = data["Close"].iloc[0]
+        change = price - prev
+        line_color = "#00e676" if change > 0 else "#ff3b30"
+        fill_color = "rgba(0,230,118,0.15)" if change > 0 else "rgba(255,59,48,0.15)"
+        fig = go.Figure()
+        fig.add_trace(
+            go.Scatter(
+                x=data.index,
+                y=data["Close"],
+                mode="lines",
+                line=dict(color=line_color, width=3, shape="spline"),
+                fill="tozeroy",
+                fillcolor=fill_color,
+                hovertemplate="%{x|%b %d} <br>Price: $%{y:.2f}<extra></extra>"
+            )
+        )
+        fig.update_layout(
+            template="plotly_dark",
+            height=500,
+            margin=dict(l=0,r=0,t=20,b=0),
+            xaxis_title="Date",
+            yaxis_title="Price ($)",
+            xaxis=dict(showgrid=False),
+            yaxis=dict(showgrid=False)
+        )
+        st.plotly_chart(fig, use_container_width=True)
     
         # decision panel with animated styling
         st.subheader("📢 Investment Decision")
@@ -828,18 +861,45 @@ if not IS_TEST:
             f"https://finance.yahoo.com/quote/{st.session_state.last_symbol}"
         )
     
-    with about_tab:
-        # reuse the ABOUT_TEXT constant so the copy in tests can inspect it
-        st.markdown(ABOUT_TEXT, unsafe_allow_html=True)
-    
     with graph_tab:
-        st.subheader("📊 Price Trend")
-        if decision == "SELL":
-            st.line_chart(df["Close"], color="#C62828")
-        elif decision == "BUY":
-            st.line_chart(df["Close"], color="#2E7D32")
-        else:
-            st.line_chart(df["Close"])
+        import plotly.graph_objects as go
+        st.subheader("📊 Stock Price Trend")
+        symbol = st.session_state.last_symbol
+        ticker = yf.Ticker(symbol)
+        data = ticker.history(period="6mo", interval="1d")
+        if data.empty:
+            st.error("No data found")
+            st.stop()
+        price = data["Close"].iloc[-1]
+        prev = data["Close"].iloc[0]
+        change = price - prev
+        line_color = "#00e676" if change > 0 else "#ff3b30"
+        fill_color = "rgba(0,230,118,0.15)" if change > 0 else "rgba(255,59,48,0.15)"
+        fig = go.Figure()
+        fig.add_trace(
+            go.Scatter(
+                x=data.index,
+                y=data["Close"],
+                mode="lines",
+                line=dict(color=line_color, width=3, shape="spline"),
+                fill="tozeroy",
+                fillcolor=fill_color,
+                hovertemplate="%{x|%b %d} <br>Price: $%{y:.2f}<extra></extra>"
+            )
+        )
+        fig.update_layout(
+            template="plotly_dark",
+            height=500,
+            margin=dict(l=0,r=0,t=20,b=0),
+            xaxis_title="Date",
+            yaxis_title="Price ($)",
+            xaxis=dict(showgrid=False),
+            yaxis=dict(showgrid=False)
+        )
+        st.plotly_chart(fig, use_container_width=True, key="graph_chart")
+        
+        
+
     
     with yahoo_tab:
         st.markdown("### 📊 More Stock Details")
@@ -879,61 +939,39 @@ if not IS_TEST:
             unsafe_allow_html=True
         )
             
-    
-        # Password Form
-        if st.button("🔑 Change Password"):
-            st.session_state.show_change_pw = True
-    
-        if st.session_state.show_change_pw:
-    
-            st.subheader("🔐 Update Password")
-    
-            old_password = st.text_input("Old Password", type="password")
-            new_password = st.text_input("New Password", type="password")
-            confirm_password = st.text_input("Confirm Password", type="password")
-    
-            if st.button("Update Password"):
-    
-                conn = sqlite3.connect("users.db")
-                cursor = conn.cursor()
-    
-                cursor.execute("SELECT password FROM users WHERE username=?",
-                               (st.session_state.username,))
-                user = cursor.fetchone()
-    
-                if user:
-                    stored_password = user[0]
-    
-                    if bcrypt.checkpw(old_password.encode(), stored_password):
-    
-                        if new_password == confirm_password:
-    
-                            hashed = bcrypt.hashpw(new_password.encode(), bcrypt.gensalt())
-    
-                            cursor.execute(
-                                "UPDATE users SET password=? WHERE username=?",
-                                (hashed, st.session_state.username)
-                            )
-    
-                            conn.commit()
-                            conn.close()
-    
-                            st.success("✅ Password updated successfully")
-    
-                        else:
-                            st.error("⚠ Passwords do not match")
-    
-                    else:
-                        st.error("❌ Old password incorrect")
-    
-                else:
-                    st.error("User not found")
+
+
     
     if __name__ == "__main__":
+
         with stocks_tab:
-            
-            st.title("📈 Live Stock Market")
-    
+            import plotly.graph_objects as go
+            st.markdown("""
+            <style>
+            .main-card{
+                background: #111;
+                padding:30px;
+                border-radius:20px;
+                color:white;
+                width:700px;
+                margin:30px auto 30px auto;
+                box-shadow:0 0 30px rgba(0,0,0,0.3);
+            }
+            .stock-title{
+                font-size:28px;
+                font-weight:bold;
+                color:#42A5F5;
+                margin-bottom:10px;
+            }
+            .stock-price{
+                font-size:22px;
+                font-weight:bold;
+                margin-bottom:8px;
+            }
+            .green{color:#00E676; font-weight:bold;}
+            .red{color:#FF5252; font-weight:bold;}
+            </style>
+            """, unsafe_allow_html=True)
             stocks = {
                 "Apple": "AAPL",
                 "Microsoft": "MSFT",
@@ -942,52 +980,149 @@ if not IS_TEST:
                 "Tesla": "TSLA",
                 "Nvidia": "NVDA",
                 "Meta": "META",
-                "Netflix": "NFLX",
-                "Intel": "INTC",
-                "AMD": "AMD",
-                "Boeing": "BA",
+                "ExxonMobil": "XOM",
+                "Chevron": "CVX",
+                "Coca-Cola": "KO",
+                "Pfizer": "PFE",
                 "Disney": "DIS",
-                "Nike": "NKE",
-                "Starbucks": "SBUX",
-                "Coca Cola": "KO",
                 "Pepsi": "PEP",
                 "Walmart": "WMT",
                 "JPMorgan": "JPM",
                 "Visa": "V",
                 "Mastercard": "MA"
             }
+
+
+            for stock_name, symbol in stocks.items():
+                ticker = yf.Ticker(symbol)
+                info = ticker.info
+                # 6 months daily chart
+                data = ticker.history(period="6mo", interval="1d")
+                if data.empty:
+                    continue
+                price = data["Close"].iloc[-1]
+                prev = data["Close"].iloc[0]
+                change = price - prev
+                percent = (change/prev)*100 if prev != 0 else 0
+                color = "green" if change > 0 else "red"
+
+                st.markdown('<div class="main-card">', unsafe_allow_html=True)
+                st.markdown(f'<div class="stock-title">{info.get("shortName", symbol)} ({symbol})</div>', unsafe_allow_html=True)
+                st.markdown(f'<div class="stock-price">${price:.2f}</div>', unsafe_allow_html=True)
+                st.markdown(f'<div class="{color}">{change:.2f} ({percent:.2f}%) (6mo)</div>', unsafe_allow_html=True)
+
+                # --- Plotly Chart: 6mo, smooth, color by profit/loss ---
+                line_color = "#00e676" if change > 0 else "#ff3b30"
+                fill_color = "rgba(0,230,118,0.15)" if change > 0 else "rgba(255,59,48,0.15)"
+                fig = go.Figure()
+                fig.add_trace(
+                    go.Scatter(
+                        x=data.index,
+                        y=data["Close"],
+                        mode="lines",
+                        line=dict(color=line_color, width=3, shape="spline"),
+                        fill="tozeroy",
+                        fillcolor=fill_color,
+                        hovertemplate="%{x|%b %d} <br>Price: $%{y:.2f}<extra></extra>"
+                    )
+                )
+                fig.update_layout(
+                    template="plotly_dark",
+                    height=400,
+                    margin=dict(l=0,r=0,t=20,b=0),
+                    xaxis_title=None,
+                    yaxis_title=None,
+                    xaxis=dict(
+                        showgrid=False,
+                        tickformat="%b %d",
+                        title="Date"
+                    ),
+                    yaxis=dict(showgrid=False, title="Price ($)")
+                )
+                st.plotly_chart(fig, use_container_width=True)
+
+                # --- Info Grid ---
+                col1, col2 = st.columns(2)
+                with col1:
+                    st.markdown(f"**Open**  {info.get('open')}")
+                    st.markdown(f"**Market Cap**  {info.get('marketCap')}")
+                    st.markdown(f"**Year Low**  {info.get('fiftyTwoWeekLow')}")
+                    st.markdown(f"**Day High**  {info.get('dayHigh')}")
+                    st.markdown(f"**P/E Ratio**  {info.get('trailingPE')}")
+                with col2:
+                    st.markdown(f"**Volume**  {info.get('volume')}")
+                    st.markdown(f"**Day Low**  {info.get('dayLow')}")
+                    st.markdown(f"**EPS (TTM)**  {info.get('trailingEps')}")
+                    st.markdown(f"**Year High**  {info.get('fiftyTwoWeekHigh')}")
+                st.markdown('</div>', unsafe_allow_html=True)
     
-            for name, ticker in stocks.items():
-    
-                data = yf.download(ticker, period="1d", interval="5m")
-    
-                if not data.empty:
-    
-                    # ensure single numeric values (not Series) for comparison
-                    close_series = data["Close"]
-                    # retrieving values may occasionally return a 1-element Series
-                    raw_latest = close_series.iloc[-1]
-                    raw_first = close_series.iloc[0]
-                    if hasattr(raw_latest, "item"):
-                        latest_price = float(raw_latest.item())
-                    else:
-                        latest_price = float(raw_latest)
-                    if hasattr(raw_first, "item"):
-                        first_price = float(raw_first.item())
-                    else:
-                        first_price = float(raw_first)
-                    change = latest_price - first_price
-    
-                    col1, col2 = st.columns([3,1])
-    
-                    with col1:
-                        st.subheader(f"{name} ({ticker})")
-                        st.line_chart(close_series)
-    
-                    with col2:
-                        if change >= 0:
-                            st.success(f"${latest_price:.2f} ▲ {change:.2f}")
-                        else:
-                            st.error(f"${latest_price:.2f} ▼ {change:.2f}")
-    
-                    st.divider()
+        with about_tab:
+
+         st.markdown('''
+# 🚀 Smart Investment Advisor
+
+## 📌 Overview
+Smart Investment Advisor is a web application that helps users understand stock market trends and make better investment decisions.  
+The system analyzes stock price data and provides simple suggestions such as **Buy, Sell, or Hold** to guide users.
+
+---
+
+## 🎯 Purpose of the Application
+The main goal of this application is to make stock analysis easier for beginners and investors.  
+Many people find it difficult to understand stock market data, so this system simplifies the process by analyzing stock trends and presenting the results in an easy-to-understand way.
+
+---
+
+## ⚙️ How the Application Works
+
+1. Users create an account and securely log in to the application  
+2. After logging in, users can search for a stock by entering its stock symbol  
+3. The system analyzes the stock price history and market trend  
+4. Based on the analysis, the application provides a **Buy, Sell, or Hold** recommendation  
+
+---
+
+## 📊 Stock Analysis & Visualization
+The application displays stock price charts so users can visually understand how the price of a stock changes over time.  
+These charts help investors identify trends and make better decisions.
+
+---
+
+## 📈 Live Market Updates
+At the top of the application, a live stock ticker displays popular stock symbols and their price changes.
+
+🟢 **Green color** indicates profit or price increase  
+🔴 **Red color** indicates loss or price decrease  
+
+This helps users quickly understand the overall market condition.
+
+---
+
+## 🔔 Email Notifications
+The system can automatically send email alerts when important signals such as **Buy or Sell** are detected.  
+This feature keeps users updated about potential investment opportunities.
+
+---
+
+## 🔍 Additional Features
+• Direct access to detailed stock information  
+• Easy-to-use and interactive interface  
+• Secure user authentication system  
+• Real-time market insights  
+
+---
+
+## 👥 End Users
+This application is useful for:
+
+- Beginner investors  
+- Stock market learners  
+- Individual traders  
+- Finance students  
+
+---
+
+## ✅ Conclusion
+Smart Investment Advisor provides a simple and user-friendly platform where users can analyze stock market trends, view price charts, and receive investment suggestions.  
+The application helps investors make more informed financial decisions in an easy and efficient way.
+''')
