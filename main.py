@@ -643,7 +643,7 @@ if st.session_state.logged_in:
 # ================= TOP MENU =================
 
 # shared helper for downloading stock data
-@st.cache_data
+@st.cache_data(ttl=300)
 def fetch_data(sym):
     return yf.download(sym, period="6mo")
 
@@ -994,17 +994,21 @@ if not IS_TEST:
 
 
             for stock_name, symbol in stocks.items():
-                ticker = yf.Ticker(symbol)
-                info = ticker.info
+                try:
+                 ticker = yf.Ticker(symbol)
+                 info = ticker.info
                 # 6 months daily chart
-                data = ticker.history(period="6mo", interval="1d")
-                if data.empty:
+                 data = ticker.history(period="6mo", interval="1d")
+                 if data.empty:
+                     continue
+                 price = data["Close"].iloc[-1]
+                 prev = data["Close"].iloc[0]
+                 change = price - prev
+                 percent = (change/prev)*100 if prev != 0 else 0
+                 color = "green" if change > 0 else "red"
+                except Exception:
                     continue
-                price = data["Close"].iloc[-1]
-                prev = data["Close"].iloc[0]
-                change = price - prev
-                percent = (change/prev)*100 if prev != 0 else 0
-                color = "green" if change > 0 else "red"
+
 
                 st.markdown('<div class="main-card">', unsafe_allow_html=True)
                 st.markdown(f'<div class="stock-title">{info.get("shortName", symbol)} ({symbol})</div>', unsafe_allow_html=True)
